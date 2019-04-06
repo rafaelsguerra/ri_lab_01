@@ -22,14 +22,9 @@ class DiarioDoCentroDoMundoSpider(scrapy.Spider):
         section = response.url.split("/")[-2]
         
         for href in response.css("h3.entry-title.td-module-title a::attr(href)").getall():
-            
-            #request url must be string
             request = scrapy.Request(href, callback = self.parse_href)
             request.meta['section'] = section
             yield request
-
-        #for href in response.css("h3.entry-title.td-module-title a::attr(href)"):
-        #    yield response.follow(href, callback = self.parse_href)
         
     def parse_href(self, response):
         for element in response.css('article'):
